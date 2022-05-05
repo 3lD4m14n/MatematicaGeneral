@@ -55,15 +55,18 @@ char* leerEcuacion(void){
 componentes construirEcuacion(miembro *lista){
     componentes ecuacion;
 
-    Numero construirNumero(char, char, char, miembro *);
-    bool continuar = true, fraccion, encontrado;
+    Numero construirNumero(char, int, int, miembro *);
+    bool continuar = true, fraccion, encontrado, independiente;
     int i;
-    char signo, temp, identificador, iNumerador, iDenominador; 
+    char signo, temp;
+    int identificador, iNumerador, iDenominador; 
     Numero numero;
-    while(continuar){
+
+    while(lista != NULL){
         identificador = 0;
         fraccion = false;
         encontrado = false;
+        independiente = false;
         iDenominador = -1;
         if(lista->contenido[0] == '-') signo = NEGATIVO;
         else signo = POSITIVO;
@@ -71,19 +74,24 @@ componentes construirEcuacion(miembro *lista){
         //este bucle carga el valor del numero y obtiene el identificador del miembro correspondiente
         for( i = 1 ; lista->contenido[i] != 0 ; i++ ){
             temp = lista->contenido[i];
+            if( (temp >= '0' && temp <= '9') && lista->contenido[i+1] == 0) independiente = true; 
 
             if(temp == '/'){
                 fraccion = true;
                 iNumerador = i;
             }
-            if( ( (temp >= 'a' && temp <= 'z') || temp == 0) && fraccion == true){
-                iDenominador = i;
-            }
-            if(encontrado == false){
-                iNumerador = i;
+            if( ( (temp >= 'a' && temp <= 'z') || independiente) && !encontrado){
+                if(independiente){
+                    if(fraccion == true) iDenominador = i+1;
+                    else iNumerador = i+1;
+                }else{
+                    if(fraccion == true) iDenominador = i;
+                    else iNumerador = i;
+                }
+                cout<<"indices: "<<iNumerador<<" "<<iDenominador<<endl;
                 encontrado = true;
-            } 
-            numero = construirNumero(signo, iNumerador, iDenominador, lista);
+                numero = construirNumero(signo, iNumerador, iDenominador, lista);
+            }
 
             if(temp >= 'a' && temp <= 'z'){
                 identificador += lista->contenido[i] - 100;
@@ -141,12 +149,7 @@ componentes construirEcuacion(miembro *lista){
                 break;
         }
 
-        if(lista->siguiente != NULL){
-            lista = lista->siguiente;
-        }else{
-            continuar = false;
-        }
-
+        lista = lista->siguiente;
     }
 
     return ecuacion;
@@ -253,8 +256,9 @@ miembro* crearElemento(miembro **cabeza, miembro *anterior, int j, char signo, b
     return nuevo;
 }
 
-Numero construirNumero(char signo, char iNumerador, char iDenominador, miembro *lista){
+Numero construirNumero(char signo, int iNumerador, int iDenominador, miembro *lista){
     Numero numero;
+
     int i;
     for( i = 1 ; (lista->contenido[iNumerador-i] != '-' && lista->contenido[iNumerador-i] != '+') ; i++ ){ 
         numero.numerador += (lista->contenido[iNumerador-i] - '0') * pow( 10 , (i-1) ) * signo ;
@@ -264,6 +268,9 @@ Numero construirNumero(char signo, char iNumerador, char iDenominador, miembro *
             numero.denominador += (lista->contenido[iDenominador-i] - '0') * pow( 10 , (i-1) );
         }
     }
+
+    cout<<"indices: "<<iNumerador<<" "<<iDenominador;
+    cout<<"numero: "<<numero.numerador<<"\\"<<numero.denominador<<endl<<endl;
 
     return numero;
 }
