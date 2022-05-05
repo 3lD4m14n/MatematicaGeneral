@@ -1,7 +1,5 @@
 #include<iostream>
 #include<stdlib.h>
-#include<conio.h>
-#include<string.h>
 #include<math.h>
 using namespace std;
 
@@ -270,4 +268,3 @@ Numero construirNumero(char signo, int iNumerador, int iDenominador, miembro *li
 
     return numero;
 }
-
