@@ -88,7 +88,6 @@ componentes construirEcuacion(miembro *lista){
                     if(fraccion == true) iDenominador = i;
                     else iNumerador = i;
                 }
-                cout<<"indices: "<<iNumerador<<" "<<iDenominador<<endl;
                 encontrado = true;
                 numero = construirNumero(signo, iNumerador, iDenominador, lista);
             }
@@ -268,9 +267,6 @@ Numero construirNumero(char signo, int iNumerador, int iDenominador, miembro *li
             numero.denominador += (lista->contenido[iDenominador-i] - '0') * pow( 10 , (i-1) );
         }
     }
-
-    cout<<"indices: "<<iNumerador<<" "<<iDenominador;
-    cout<<"numero: "<<numero.numerador<<"\\"<<numero.denominador<<endl<<endl;
 
     return numero;
 }
