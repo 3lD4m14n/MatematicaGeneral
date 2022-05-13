@@ -228,9 +228,7 @@ int main(void){
     system("cls");
     ecuacionBruta = leerEcuacion();
     lista = separar(ecuacionBruta);
-    imprimirLista(lista);
     ecuacion = construirEcuacion(lista);
-    imprimirEcuacion(ecuacion);
 }
 
 miembro* crearElemento(miembro **cabeza, miembro *anterior, int j, char signo, bool lado){
