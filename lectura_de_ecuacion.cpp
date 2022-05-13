@@ -221,7 +221,7 @@ void imprimirEcuacion(componentes ecuacion){
 }
 
 
-int main(void){
+componentes obtenerEcuacion(void){
     char *ecuacionBruta;
     componentes ecuacion;
     miembro *lista;
@@ -229,6 +229,8 @@ int main(void){
     ecuacionBruta = leerEcuacion();
     lista = separar(ecuacionBruta);
     ecuacion = construirEcuacion(lista);
+
+    return ecuacion;
 }
 
 miembro* crearElemento(miembro **cabeza, miembro *anterior, int j, char signo, bool lado){
