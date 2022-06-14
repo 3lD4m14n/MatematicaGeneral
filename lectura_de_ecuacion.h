@@ -225,7 +225,6 @@ componentes obtenerEcuacion(void){
     char *ecuacionBruta;
     componentes ecuacion;
     miembro *lista;
-    system("cls");
     ecuacionBruta = leerEcuacion();
     lista = separar(ecuacionBruta);
     ecuacion = construirEcuacion(lista);
